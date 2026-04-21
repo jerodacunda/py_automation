@@ -1,6 +1,0 @@
-id,title,price,location,owner_name,rooms,created_at
-1,Depto 2 amb,120000,Palermo,Juan Perez,2,2024-01-10
-2,Casa grande,,San Isidro,Maria Lopez,4,2024-02-05
-3,PH reciclado,95000,Olivos,,3,2024-03-12
-4,Monoambiente,70000,Palermo,Pedro Gomez,,2024-01-20
-5,Depto lujo,250000,Recoleta,Ana Torres,3,invalid_date
