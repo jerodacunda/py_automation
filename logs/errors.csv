@@ -1,0 +1,4 @@
+id,title,price,location,owner_name,rooms,created_at,errors
+2,Casa grande,,San Isidro,Maria Lopez,4.0,2024-02-05,Invalid price
+4,Monoambiente,70000.0,Palermo,Pedro Gomez,,2024-01-20,Invalid rooms
+5,Depto lujo,250000.0,Recoleta,Ana Torres,3.0,,Invalid date
