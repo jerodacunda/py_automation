@@ -1,4 +1,7 @@
 import pandas as pd
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -8,6 +11,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     - Converts data types
     - Normalizes strings
     """
+    logger.info("Starting data cleaning")
 
     df = df.copy()
 
@@ -24,6 +28,10 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # ------------------------
     # 3. OWNER NAME
     # ------------------------
+    missing_owner = df["owner_name"].isna().sum()
+    if missing_owner:
+        logger.warning(f"{missing_owner} rows missing owner_name")
+
     df["owner_name"] = df["owner_name"].fillna("UNKNOWN")
 
     # ------------------------
@@ -36,5 +44,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # 5. CREATED_AT
     # ------------------------
     df["created_at"] = pd.to_datetime(df["created_at"], errors="coerce")
+
+    logger.info("Finished data cleaning")
 
     return df

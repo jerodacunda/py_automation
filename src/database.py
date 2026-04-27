@@ -1,7 +1,9 @@
 import sqlite3
 import pandas as pd
+import logging
 from contextlib import contextmanager
 
+logger = logging.getLogger(__name__)
 
 DB_PATH = "data/database.db"
 
@@ -17,6 +19,7 @@ def get_connection(db_path: str = DB_PATH):
         conn.commit()
     except Exception:
         conn.rollback()
+        logger.error(f"Database error: {e}")
         raise
     finally:
         conn.close()
@@ -26,6 +29,8 @@ def get_connection(db_path: str = DB_PATH):
 # CREATE TABLE
 # ------------------------
 def create_table():
+    logger.info("Creating table if not exists")
+
     query = """
     CREATE TABLE IF NOT EXISTS properties (
         id INTEGER PRIMARY KEY,
@@ -52,7 +57,7 @@ def insert_data(df: pd.DataFrame):
     """
 
     if df.empty:
-        print("No data to insert.")
+        logger.warning("No data to insert")
         return
 
     # Convert datetime to string (ISO format)
@@ -67,7 +72,9 @@ def insert_data(df: pd.DataFrame):
 
     data_tuples = list(df.itertuples(index=False, name=None))
 
+    logger.info(f"Inserting {len(data_tuples)} rows into database")
+
     with get_connection() as conn:
         conn.executemany(query, data_tuples)
 
-    print(f"Inserted {len(data_tuples)} rows (duplicates ignored).")
+    logger.info("Insert completed")

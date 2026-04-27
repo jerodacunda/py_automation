@@ -1,5 +1,8 @@
 import pandas as pd
 from typing import Tuple, List, Dict
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def validate_data(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -10,6 +13,8 @@ def validate_data(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
         valid_df: rows that passed validation
         error_df: rows with validation errors + error details
     """
+
+    logger.info("Starting validation")
 
     valid_rows = []
     error_rows = []
@@ -46,11 +51,15 @@ def validate_data(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
         # ------------------------
 
         if errors:
+            logger.debug(f"Row {index} errors: {errors}")
+
             error_entry = row.to_dict()
             error_entry["errors"] = "; ".join(errors)
             error_rows.append(error_entry)
         else:
             valid_rows.append(row)
+
+    logger.info(f"Validation complete: {len(valid_rows)} valid, {len(error_rows)} invalid")
 
     valid_df = pd.DataFrame(valid_rows)
     error_df = pd.DataFrame(error_rows)
