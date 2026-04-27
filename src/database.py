@@ -17,7 +17,7 @@ def get_connection(db_path: str = DB_PATH):
     try:
         yield conn
         conn.commit()
-    except Exception:
+    except Exception as e:
         conn.rollback()
         logger.error(f"Database error: {e}")
         raise
